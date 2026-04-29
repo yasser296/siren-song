@@ -1,4 +1,4 @@
-import { Bell, Globe, Lock, HelpCircle, LogOut, Award, Flame, Clock } from "lucide-react";
+import { Bell, Globe, Lock, HelpCircle, LogOut, Award, Flame, Clock, Moon, Sun } from "lucide-react";
 import { toast } from "sonner";
 import { api, useApi } from "@/lib/fakeApi";
 
