@@ -14,6 +14,7 @@ const ProfileScreen = ({ logo }: { logo: string }) => {
   const streak = useApi(() => api.getStreak());
   const totalMin = useApi(() => api.getTotalMinutes());
   const sessions = useApi(() => api.getSessions());
+  const theme = useApi(() => api.getTheme());
 
   const badges = [
     { name: "First breath", earned: sessions.length > 0 },
