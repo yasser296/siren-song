@@ -165,8 +165,16 @@ const persist = () => {
 
 export const subscribe = (cb: () => void) => {
   listeners.add(cb);
-  return () => listeners.delete(cb);
+  return () => {
+    listeners.delete(cb);
+  };
 };
+
+// Monotonic version that bumps on every persist(), used as a stable snapshot key.
+let dbVersion = 0;
+const bumpVersion = () => { dbVersion++; };
+listeners.add(bumpVersion);
+export const getVersion = () => dbVersion;
 
 const delay = (min = 180, max = 480) =>
   new Promise<void>((r) => setTimeout(r, Math.random() * (max - min) + min));
