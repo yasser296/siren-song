@@ -1,4 +1,4 @@
-import { Bell, Globe, Lock, HelpCircle, LogOut, Award, Flame, Clock } from "lucide-react";
+import { Bell, Globe, Lock, HelpCircle, LogOut, Award, Flame, Clock, Moon, Sun } from "lucide-react";
 import { toast } from "sonner";
 import { api, useApi } from "@/lib/fakeApi";
 
@@ -14,6 +14,7 @@ const ProfileScreen = ({ logo }: { logo: string }) => {
   const streak = useApi(() => api.getStreak());
   const totalMin = useApi(() => api.getTotalMinutes());
   const sessions = useApi(() => api.getSessions());
+  const theme = useApi(() => api.getTheme());
 
   const badges = [
     { name: "First breath", earned: sessions.length > 0 },
@@ -82,6 +83,25 @@ const ProfileScreen = ({ logo }: { logo: string }) => {
             <p className="text-sm text-muted-foreground text-center py-6">No sessions yet</p>
           )}
         </div>
+      </section>
+
+      <section className="px-5 mt-6">
+        <h2 className="text-base font-semibold mb-3">Appearance</h2>
+        <button
+          onClick={() => api.toggleTheme()}
+          className="w-full bg-card rounded-2xl shadow-card flex items-center gap-3 p-4 text-left hover:bg-secondary/30 transition-smooth"
+        >
+          <div className="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-secondary-foreground">
+            {theme === "dark" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium">Dark mode</p>
+            <p className="text-xs text-muted-foreground">{theme === "dark" ? "On — easier on the eyes" : "Off — bright and airy"}</p>
+          </div>
+          <div className={`w-11 h-6 rounded-full p-0.5 transition-smooth ${theme === "dark" ? "gradient-primary" : "bg-secondary"}`}>
+            <div className={`w-5 h-5 rounded-full bg-white shadow transition-smooth ${theme === "dark" ? "translate-x-5" : ""}`} />
+          </div>
+        </button>
       </section>
 
       <section className="px-5 mt-6">

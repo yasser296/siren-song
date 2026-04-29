@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Home, Wind, BookHeart, Users, User } from "lucide-react";
+import { Home, Wind, BookHeart, Users, User, Sparkles } from "lucide-react";
 import logo from "@/assets/serenmind-logo.png";
 import HomeScreen from "@/components/screens/HomeScreen";
 import BreatheScreen from "@/components/screens/BreatheScreen";
@@ -7,21 +7,30 @@ import JournalScreen from "@/components/screens/JournalScreen";
 import CommunityScreen from "@/components/screens/CommunityScreen";
 import ProfileScreen from "@/components/screens/ProfileScreen";
 import OnboardingScreen from "@/components/screens/OnboardingScreen";
+import DoctorsScreen from "@/components/screens/DoctorsScreen";
+import MusicScreen from "@/components/screens/MusicScreen";
+import AICompanionScreen from "@/components/screens/AICompanionScreen";
+import DashboardScreen from "@/components/screens/DashboardScreen";
+import QuestsScreen from "@/components/screens/QuestsScreen";
 import { api, useApi } from "@/lib/fakeApi";
 
-type Tab = "home" | "breathe" | "journal" | "community" | "profile";
+export type Tab =
+  | "home" | "breathe" | "journal" | "community" | "profile"
+  | "ai" | "doctors" | "music" | "dashboard" | "quests";
 
 const tabs: { id: Tab; label: string; icon: typeof Home }[] = [
   { id: "home", label: "Home", icon: Home },
+  { id: "ai", label: "Sere AI", icon: Sparkles },
   { id: "breathe", label: "Breathe", icon: Wind },
-  { id: "journal", label: "Journal", icon: BookHeart },
   { id: "community", label: "Circle", icon: Users },
-  { id: "profile", label: "Profile", icon: User },
+  { id: "profile", label: "Me", icon: User },
 ];
 
 const Index = () => {
   const [active, setActive] = useState<Tab>("home");
   const user = useApi(() => api.getUser());
+  // Re-render when theme changes
+  useApi(() => api.getTheme());
   const [booting, setBooting] = useState(true);
 
   useEffect(() => {
@@ -37,9 +46,7 @@ const Index = () => {
     );
   }
 
-  if (!user) {
-    return <OnboardingScreen logo={logo} />;
-  }
+  if (!user) return <OnboardingScreen logo={logo} />;
 
   return (
     <div className="min-h-screen w-full flex justify-center bg-gradient-to-b from-secondary/40 to-background">
@@ -56,6 +63,11 @@ const Index = () => {
           {active === "journal" && <JournalScreen />}
           {active === "community" && <CommunityScreen />}
           {active === "profile" && <ProfileScreen logo={logo} />}
+          {active === "ai" && <AICompanionScreen />}
+          {active === "doctors" && <DoctorsScreen />}
+          {active === "music" && <MusicScreen />}
+          {active === "dashboard" && <DashboardScreen />}
+          {active === "quests" && <QuestsScreen />}
         </main>
 
         <nav className="absolute bottom-0 left-0 right-0 glass border-t border-border/60 px-2 pt-2 pb-3 md:rounded-b-[2.5rem]">
@@ -69,22 +81,12 @@ const Index = () => {
                     className="flex flex-col items-center gap-1 px-3 py-1.5 transition-bounce"
                     aria-label={label}
                   >
-                    <span
-                      className={`flex items-center justify-center rounded-2xl transition-smooth ${
-                        isActive
-                          ? "gradient-primary text-primary-foreground w-12 h-10 shadow-glow"
-                          : "w-10 h-10 text-muted-foreground"
-                      }`}
-                    >
+                    <span className={`flex items-center justify-center rounded-2xl transition-smooth ${
+                      isActive ? "gradient-primary text-primary-foreground w-12 h-10 shadow-glow" : "w-10 h-10 text-muted-foreground"
+                    }`}>
                       <Icon className="w-5 h-5" strokeWidth={2.2} />
                     </span>
-                    <span
-                      className={`text-[10px] font-medium ${
-                        isActive ? "text-primary" : "text-muted-foreground"
-                      }`}
-                    >
-                      {label}
-                    </span>
+                    <span className={`text-[10px] font-medium ${isActive ? "text-primary" : "text-muted-foreground"}`}>{label}</span>
                   </button>
                 </li>
               );

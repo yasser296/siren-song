@@ -1,10 +1,11 @@
-import { Wind, BookHeart, Users, Sparkles, Sun, Moon, Heart, Loader2 } from "lucide-react";
+import { Wind, BookHeart, Users, Sparkles, Sun, Moon, Heart, Loader2, Stethoscope, Music2, BarChart3, Trophy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api, useApi, type Mood } from "@/lib/fakeApi";
+import type { Tab } from "@/pages/Index";
 
 interface Props {
-  onNavigate: (tab: "home" | "breathe" | "journal" | "community" | "profile") => void;
+  onNavigate: (tab: Tab) => void;
   logo: string;
 }
 
@@ -99,9 +100,18 @@ const HomeScreen = ({ onNavigate, logo }: Props) => {
         <h2 className="text-base font-semibold text-foreground mb-3">Quick relief</h2>
         <div className="grid grid-cols-2 gap-3">
           <ActionCard onClick={() => onNavigate("breathe")} title="Breathe" subtitle="2 min reset" gradient="gradient-mint" icon={Wind} />
-          <ActionCard onClick={() => onNavigate("journal")} title="Journal" subtitle="Reflect now" gradient="gradient-warm" icon={BookHeart} />
-          <ActionCard onClick={() => onNavigate("community")} title="Circle" subtitle="Talk anonymously" gradient="gradient-primary" icon={Users} />
-          <ActionCard onClick={() => onNavigate("breathe")} title="Focus" subtitle="25 min sounds" gradient="bg-accent" icon={Sparkles} dark />
+          <ActionCard onClick={() => onNavigate("ai")} title="Sere AI" subtitle="Your companion" gradient="gradient-primary" icon={Sparkles} />
+          <ActionCard onClick={() => onNavigate("music")} title="Sound" subtitle="Calming music" gradient="gradient-warm" icon={Music2} />
+          <ActionCard onClick={() => onNavigate("journal")} title="Journal" subtitle="Reflect now" gradient="bg-accent" icon={BookHeart} dark />
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-base font-semibold text-foreground mb-3">Discover</h2>
+        <div className="space-y-3">
+          <DiscoverRow onClick={() => onNavigate("doctors")} title="Talk to a Doctor" subtitle="Verified psychologists · chat 24/7" icon={Stethoscope} gradient="gradient-primary" badge="Live" />
+          <DiscoverRow onClick={() => onNavigate("dashboard")} title="Mental Health Dashboard" subtitle="Mood, minutes & insights" icon={BarChart3} gradient="gradient-mint" />
+          <DiscoverRow onClick={() => onNavigate("quests")} title="Daily Quests" subtitle="Earn XP, level up your mind" icon={Trophy} gradient="gradient-warm" />
         </div>
       </section>
 
@@ -109,8 +119,8 @@ const HomeScreen = ({ onNavigate, logo }: Props) => {
         <h2 className="text-base font-semibold text-foreground mb-3">For you</h2>
         <div className="space-y-3">
           <ProgramCard onClick={() => onNavigate("breathe")} title="Exam stress relief" duration="5 min · Guided" tag="Students" />
-          <ProgramCard onClick={() => onNavigate("breathe")} title="After-work decompress" duration="8 min · Audio" tag="Professionals" />
-          <ProgramCard onClick={() => onNavigate("breathe")} title="Sleep wind-down" duration="12 min · Sounds" tag="Tonight" />
+          <ProgramCard onClick={() => onNavigate("community")} title="Anonymous Circle" duration="Open · Now" tag="Community" />
+          <ProgramCard onClick={() => onNavigate("music")} title="Sleep wind-down" duration="12 min · Sounds" tag="Tonight" />
         </div>
       </section>
     </div>
@@ -140,6 +150,22 @@ const ProgramCard = ({ title, duration, tag, onClick }: { title: string; duratio
       <p className="text-xs text-muted-foreground">{duration}</p>
     </div>
     <span className="text-[10px] font-medium px-2 py-1 rounded-full bg-secondary text-secondary-foreground">{tag}</span>
+  </button>
+);
+
+const DiscoverRow = ({ title, subtitle, icon: Icon, gradient, onClick, badge }: { title: string; subtitle: string; icon: typeof Wind; gradient: string; onClick: () => void; badge?: string }) => (
+  <button onClick={onClick} className="w-full bg-card rounded-2xl p-4 flex items-center gap-3 shadow-card transition-smooth hover:shadow-soft text-left">
+    <div className={`w-12 h-12 rounded-2xl ${gradient} flex items-center justify-center text-primary-foreground shrink-0`}>
+      <Icon className="w-5 h-5" />
+    </div>
+    <div className="flex-1 min-w-0">
+      <div className="flex items-center gap-2">
+        <p className="font-semibold text-foreground truncate">{title}</p>
+        {badge && <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-calm/20 text-calm">{badge}</span>}
+      </div>
+      <p className="text-xs text-muted-foreground truncate">{subtitle}</p>
+    </div>
+    <span className="text-muted-foreground">›</span>
   </button>
 );
 
