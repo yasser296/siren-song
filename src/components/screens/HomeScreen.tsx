@@ -153,4 +153,20 @@ const ProgramCard = ({ title, duration, tag, onClick }: { title: string; duratio
   </button>
 );
 
+const DiscoverRow = ({ title, subtitle, icon: Icon, gradient, onClick, badge }: { title: string; subtitle: string; icon: typeof Wind; gradient: string; onClick: () => void; badge?: string }) => (
+  <button onClick={onClick} className="w-full bg-card rounded-2xl p-4 flex items-center gap-3 shadow-card transition-smooth hover:shadow-soft text-left">
+    <div className={`w-12 h-12 rounded-2xl ${gradient} flex items-center justify-center text-primary-foreground shrink-0`}>
+      <Icon className="w-5 h-5" />
+    </div>
+    <div className="flex-1 min-w-0">
+      <div className="flex items-center gap-2">
+        <p className="font-semibold text-foreground truncate">{title}</p>
+        {badge && <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-calm/20 text-calm">{badge}</span>}
+      </div>
+      <p className="text-xs text-muted-foreground truncate">{subtitle}</p>
+    </div>
+    <span className="text-muted-foreground">›</span>
+  </button>
+);
+
 export default HomeScreen;
