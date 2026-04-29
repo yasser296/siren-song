@@ -100,9 +100,18 @@ const HomeScreen = ({ onNavigate, logo }: Props) => {
         <h2 className="text-base font-semibold text-foreground mb-3">Quick relief</h2>
         <div className="grid grid-cols-2 gap-3">
           <ActionCard onClick={() => onNavigate("breathe")} title="Breathe" subtitle="2 min reset" gradient="gradient-mint" icon={Wind} />
-          <ActionCard onClick={() => onNavigate("journal")} title="Journal" subtitle="Reflect now" gradient="gradient-warm" icon={BookHeart} />
-          <ActionCard onClick={() => onNavigate("community")} title="Circle" subtitle="Talk anonymously" gradient="gradient-primary" icon={Users} />
-          <ActionCard onClick={() => onNavigate("breathe")} title="Focus" subtitle="25 min sounds" gradient="bg-accent" icon={Sparkles} dark />
+          <ActionCard onClick={() => onNavigate("ai")} title="Sere AI" subtitle="Your companion" gradient="gradient-primary" icon={Sparkles} />
+          <ActionCard onClick={() => onNavigate("music")} title="Sound" subtitle="Calming music" gradient="gradient-warm" icon={Music2} />
+          <ActionCard onClick={() => onNavigate("journal")} title="Journal" subtitle="Reflect now" gradient="bg-accent" icon={BookHeart} dark />
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-base font-semibold text-foreground mb-3">Discover</h2>
+        <div className="space-y-3">
+          <DiscoverRow onClick={() => onNavigate("doctors")} title="Talk to a Doctor" subtitle="Verified psychologists · chat 24/7" icon={Stethoscope} gradient="gradient-primary" badge="Live" />
+          <DiscoverRow onClick={() => onNavigate("dashboard")} title="Mental Health Dashboard" subtitle="Mood, minutes & insights" icon={BarChart3} gradient="gradient-mint" />
+          <DiscoverRow onClick={() => onNavigate("quests")} title="Daily Quests" subtitle="Earn XP, level up your mind" icon={Trophy} gradient="gradient-warm" />
         </div>
       </section>
 
@@ -110,8 +119,8 @@ const HomeScreen = ({ onNavigate, logo }: Props) => {
         <h2 className="text-base font-semibold text-foreground mb-3">For you</h2>
         <div className="space-y-3">
           <ProgramCard onClick={() => onNavigate("breathe")} title="Exam stress relief" duration="5 min · Guided" tag="Students" />
-          <ProgramCard onClick={() => onNavigate("breathe")} title="After-work decompress" duration="8 min · Audio" tag="Professionals" />
-          <ProgramCard onClick={() => onNavigate("breathe")} title="Sleep wind-down" duration="12 min · Sounds" tag="Tonight" />
+          <ProgramCard onClick={() => onNavigate("community")} title="Anonymous Circle" duration="Open · Now" tag="Community" />
+          <ProgramCard onClick={() => onNavigate("music")} title="Sleep wind-down" duration="12 min · Sounds" tag="Tonight" />
         </div>
       </section>
     </div>
