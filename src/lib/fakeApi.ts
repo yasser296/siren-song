@@ -323,12 +323,20 @@ export const api = {
   },
 };
 
-// React hook to re-render on db changes
-import { useSyncExternalStore } from "react";
+// React hook to re-render on db changes.
+// We cache the selector's result per db-version so useSyncExternalStore receives
+// a stable reference between renders (otherwise it loops with array/object selectors).
+import { useSyncExternalStore, useRef, useCallback } from "react";
 export function useApi<T>(selector: () => T): T {
-  return useSyncExternalStore(
-    (cb) => subscribe(cb),
-    selector,
-    selector,
-  );
+  const cache = useRef<{ version: number; value: T } | null>(null);
+  const getSnapshot = useCallback(() => {
+    const v = getVersion();
+    if (!cache.current || cache.current.version !== v) {
+      cache.current = { version: v, value: selector() };
+    }
+    return cache.current.value;
+    // selector identity changes per render, but we only re-evaluate on version change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 }
