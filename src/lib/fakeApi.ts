@@ -1,7 +1,7 @@
 // Fake backend: simulates an API with latency, persistence (localStorage), and reactive subscriptions.
 // Lets the app feel like a real product without a real server.
 
-type Mood = "great" | "good" | "okay" | "low" | "stressed";
+export type Mood = "great" | "good" | "okay" | "low" | "stressed";
 
 export interface User {
   id: string;
