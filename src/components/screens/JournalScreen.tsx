@@ -111,7 +111,7 @@ const JournalScreen = () => {
         </div>
         <div className="flex items-end justify-between gap-2 h-28">
           {days.map((d, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
+            <div key={i} className="flex-1 h-full flex flex-col items-center gap-1.5 justify-end">
               <div className="w-full rounded-xl gradient-primary opacity-90 transition-smooth" style={{ height: `${d.h}%` }} />
               <span className="text-[10px] text-muted-foreground">{d.label}</span>
             </div>
