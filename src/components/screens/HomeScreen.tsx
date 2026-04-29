@@ -1,10 +1,11 @@
-import { Wind, BookHeart, Users, Sparkles, Sun, Moon, Heart, Loader2 } from "lucide-react";
+import { Wind, BookHeart, Users, Sparkles, Sun, Moon, Heart, Loader2, Stethoscope, Music2, BarChart3, Trophy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api, useApi, type Mood } from "@/lib/fakeApi";
+import type { Tab } from "@/pages/Index";
 
 interface Props {
-  onNavigate: (tab: "home" | "breathe" | "journal" | "community" | "profile") => void;
+  onNavigate: (tab: Tab) => void;
   logo: string;
 }
 
