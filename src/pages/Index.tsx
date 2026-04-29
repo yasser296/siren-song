@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Home, Wind, BookHeart, Users, User } from "lucide-react";
 import logo from "@/assets/serenmind-logo.png";
 import HomeScreen from "@/components/screens/HomeScreen";
@@ -7,6 +7,7 @@ import JournalScreen from "@/components/screens/JournalScreen";
 import CommunityScreen from "@/components/screens/CommunityScreen";
 import ProfileScreen from "@/components/screens/ProfileScreen";
 import OnboardingScreen from "@/components/screens/OnboardingScreen";
+import { api, useApi } from "@/lib/fakeApi";
 
 type Tab = "home" | "breathe" | "journal" | "community" | "profile";
 
@@ -20,24 +21,35 @@ const tabs: { id: Tab; label: string; icon: typeof Home }[] = [
 
 const Index = () => {
   const [active, setActive] = useState<Tab>("home");
-  const [onboarded, setOnboarded] = useState(false);
+  const user = useApi(() => api.getUser());
+  const [booting, setBooting] = useState(true);
 
-  if (!onboarded) {
-    return <OnboardingScreen onDone={() => setOnboarded(true)} logo={logo} />;
+  useEffect(() => {
+    const t = setTimeout(() => setBooting(false), 400);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (booting) {
+    return (
+      <div className="min-h-screen flex items-center justify-center gradient-hero">
+        <img src={logo} alt="" className="w-24 h-24 animate-breathe" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <OnboardingScreen logo={logo} />;
   }
 
   return (
     <div className="min-h-screen w-full flex justify-center bg-gradient-to-b from-secondary/40 to-background">
-      {/* Phone frame on desktop, fullscreen on mobile */}
       <div className="relative w-full max-w-[440px] min-h-screen bg-background shadow-soft md:my-6 md:rounded-[2.5rem] md:min-h-[860px] md:max-h-[860px] md:overflow-hidden md:border md:border-border flex flex-col">
-        {/* Status bar mock (desktop only) */}
         <div className="hidden md:flex justify-between items-center px-8 pt-4 pb-1 text-xs font-medium text-foreground/70">
           <span>9:41</span>
           <span>SerenMind</span>
           <span>100%</span>
         </div>
 
-        {/* Screen content */}
         <main className="flex-1 overflow-y-auto pb-24">
           {active === "home" && <HomeScreen onNavigate={setActive} logo={logo} />}
           {active === "breathe" && <BreatheScreen />}
@@ -46,7 +58,6 @@ const Index = () => {
           {active === "profile" && <ProfileScreen logo={logo} />}
         </main>
 
-        {/* Bottom tab bar */}
         <nav className="absolute bottom-0 left-0 right-0 glass border-t border-border/60 px-2 pt-2 pb-3 md:rounded-b-[2.5rem]">
           <ul className="flex justify-around items-center">
             {tabs.map(({ id, label, icon: Icon }) => {
