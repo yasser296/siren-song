@@ -7,16 +7,18 @@ import JournalScreen from "@/components/screens/JournalScreen";
 import CommunityScreen from "@/components/screens/CommunityScreen";
 import ProfileScreen from "@/components/screens/ProfileScreen";
 import OnboardingScreen from "@/components/screens/OnboardingScreen";
+import OnboardingCarousel from "@/components/screens/OnboardingCarousel";
 import DoctorsScreen from "@/components/screens/DoctorsScreen";
 import MusicScreen from "@/components/screens/MusicScreen";
 import AICompanionScreen from "@/components/screens/AICompanionScreen";
 import DashboardScreen from "@/components/screens/DashboardScreen";
 import QuestsScreen from "@/components/screens/QuestsScreen";
+import AntiStressScreen from "@/components/screens/AntiStressScreen";
 import { api, useApi } from "@/lib/fakeApi";
 
 export type Tab =
   | "home" | "breathe" | "journal" | "community" | "profile"
-  | "ai" | "doctors" | "music" | "dashboard" | "quests";
+  | "ai" | "doctors" | "music" | "dashboard" | "quests" | "antistress";
 
 const tabs: { id: Tab; label: string; icon: typeof Home }[] = [
   { id: "home", label: "Home", icon: Home },
@@ -29,9 +31,11 @@ const tabs: { id: Tab; label: string; icon: typeof Home }[] = [
 const Index = () => {
   const [active, setActive] = useState<Tab>("home");
   const user = useApi(() => api.getUser());
+  const onboarded = useApi(() => api.isOnboarded());
   // Re-render when theme changes
   useApi(() => api.getTheme());
   const [booting, setBooting] = useState(true);
+  const [forceShowApp, setForceShowApp] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setBooting(false), 400);
@@ -47,6 +51,7 @@ const Index = () => {
   }
 
   if (!user) return <OnboardingScreen logo={logo} />;
+  if (!onboarded && !forceShowApp) return <OnboardingCarousel logo={logo} onDone={() => setForceShowApp(true)} />;
 
   return (
     <div className="min-h-screen w-full flex justify-center bg-gradient-to-b from-secondary/40 to-background">
@@ -68,6 +73,7 @@ const Index = () => {
           {active === "music" && <MusicScreen />}
           {active === "dashboard" && <DashboardScreen />}
           {active === "quests" && <QuestsScreen />}
+          {active === "antistress" && <AntiStressScreen />}
         </main>
 
         <nav className="absolute bottom-0 left-0 right-0 glass border-t border-border/60 px-2 pt-2 pb-3 md:rounded-b-[2.5rem]">

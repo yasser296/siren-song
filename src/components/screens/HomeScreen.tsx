@@ -1,4 +1,4 @@
-import { Wind, BookHeart, Users, Sparkles, Sun, Moon, Heart, Loader2, Stethoscope, Music2, BarChart3, Trophy } from "lucide-react";
+import { Wind, BookHeart, Users, Sparkles, Sun, Moon, Heart, Loader2, Stethoscope, Music2, BarChart3, Trophy, Flower2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api, useApi, type Mood } from "@/lib/fakeApi";
@@ -109,6 +109,7 @@ const HomeScreen = ({ onNavigate, logo }: Props) => {
       <section>
         <h2 className="text-base font-semibold text-foreground mb-3">Discover</h2>
         <div className="space-y-3">
+          <DiscoverRow onClick={() => onNavigate("antistress")} title="Anti-Stress Exercises" subtitle="13 validated techniques · breathe, ground, reset" icon={Flower2} gradient="gradient-mint" badge="New" />
           <DiscoverRow onClick={() => onNavigate("doctors")} title="Talk to a Doctor" subtitle="Verified psychologists · chat 24/7" icon={Stethoscope} gradient="gradient-primary" badge="Live" />
           <DiscoverRow onClick={() => onNavigate("dashboard")} title="Mental Health Dashboard" subtitle="Mood, minutes & insights" icon={BarChart3} gradient="gradient-mint" />
           <DiscoverRow onClick={() => onNavigate("quests")} title="Daily Quests" subtitle="Earn XP, level up your mind" icon={Trophy} gradient="gradient-warm" />
