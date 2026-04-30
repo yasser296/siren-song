@@ -118,6 +118,7 @@ interface DB {
   musicPlays: { trackId: string; createdAt: number }[];
   theme: "light" | "dark";
   lastQuestReset: number;
+  onboarded: boolean;
 }
 
 const KEY = "serenmind.db.v2";
