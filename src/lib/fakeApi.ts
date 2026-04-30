@@ -255,6 +255,7 @@ const seed = (): DB => ({
   musicPlays: [],
   theme: "light",
   lastQuestReset: new Date().setHours(0, 0, 0, 0),
+  onboarded: false,
 });
 
 let db: DB = (() => {
@@ -376,6 +377,11 @@ export const api = {
     applyTheme(db.theme);
     persist();
   },
+
+  // ---------- Onboarding ----------
+  isOnboarded(): boolean { return db.onboarded; },
+  completeOnboarding() { db.onboarded = true; persist(); },
+  resetOnboarding() { db.onboarded = false; persist(); },
 
   // ---------- Moods ----------
   async logMood(mood: Mood) {
