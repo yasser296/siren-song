@@ -51,6 +51,7 @@ const Index = () => {
   }
 
   if (!user) return <OnboardingScreen logo={logo} />;
+  if (!onboarded && !forceShowApp) return <OnboardingCarousel logo={logo} onDone={() => setForceShowApp(true)} />;
 
   return (
     <div className="min-h-screen w-full flex justify-center bg-gradient-to-b from-secondary/40 to-background">
@@ -72,6 +73,7 @@ const Index = () => {
           {active === "music" && <MusicScreen />}
           {active === "dashboard" && <DashboardScreen />}
           {active === "quests" && <QuestsScreen />}
+          {active === "antistress" && <AntiStressScreen />}
         </main>
 
         <nav className="absolute bottom-0 left-0 right-0 glass border-t border-border/60 px-2 pt-2 pb-3 md:rounded-b-[2.5rem]">
